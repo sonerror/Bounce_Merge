@@ -25,6 +25,6 @@ public class GameManager : Singleton<GameManager>
              && UIManager.Ins != null
             )
         );
-        UIManager.Ins.OpenUI<Loading>();
+        //UIManager.Ins.OpenUI<Loading>();
     }
 }
