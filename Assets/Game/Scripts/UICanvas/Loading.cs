@@ -28,6 +28,7 @@ public class Loading : UICanvas
             DOVirtual.DelayedCall(0.5f, () =>
             {
                 UIManager.Ins.CloseUI<Loading>();
+                UIManager.Ins.OpenUI<Home>();
             });
         });
     }
