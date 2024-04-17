@@ -35,7 +35,6 @@ public class Ball : GameUnit
                     Debug.Log(1);
                     if (distance < 2)
                     {
-
                         MovePointStart();
                     }
                 }
@@ -47,23 +46,24 @@ public class Ball : GameUnit
     {
         if (collision.collider.CompareTag("Wall"))
         {
-            var speed = lastFrameVelocity.magnitude;
-            Bounce(collision.contacts[0].normal, speed * 2 / 3);
+            Bounce(collision.contacts[0].normal);
         }
     }
-
-
     public void MovePointStart()
     {
         if (isMovePath == false)
         {
-            this.transform.DOPath(PathController.Ins.pathArray, 3f, pathType);
+            this.transform.DOPath(PathController.Ins.pathArray, 3f, pathType).OnComplete(()=>
+            {
+                SimplePool.Despawn(this);
+            });
             isMovePath = true;
         }
     }
-    private void Bounce(Vector3 collisionNormal, float speed)
+    private void Bounce(Vector3 collisionNormal)
     {
         var direction = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);
-        rb.velocity = direction * Mathf.Max(speed, minVelocity);
+        var newSpeed = Mathf.Clamp(lastFrameVelocity.magnitude * 2f, minVelocity, 50);
+        rb.velocity = direction * newSpeed;
     }
 }

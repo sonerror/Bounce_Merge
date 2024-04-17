@@ -147,6 +147,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolType: 5
-  initialVelocity: {x: 0, y: 0, z: 0}
   minVelocity: 0
   rb: {fileID: 5471156}
+  pathType: 0
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
