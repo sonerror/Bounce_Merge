@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+
 public class InGameManager : Singleton<InGameManager>
 {
     public Transform tfCannon;
@@ -47,7 +48,7 @@ public class InGameManager : Singleton<InGameManager>
             Ball ball = SimplePool.Spawn<Ball>(PoolType.ball);
             ballSpawns++;
             ball.transform.position = tfCannon.position;
-            ball.transform.rotation = rotation;
+            ball.transform.rotation = Quaternion.Euler(0f, 0f, rotation.eulerAngles.z);
             ball.Oninit();
             Rigidbody ballRb = ball.GetComponent<Rigidbody>();
             ballRb.velocity = direction * 80f;

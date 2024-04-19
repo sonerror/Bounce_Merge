@@ -3,7 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
+using UnityEngine.UI;
 public class Ball : GameUnit
 {
     public int scoreBall = 0;
@@ -19,11 +20,14 @@ public class Ball : GameUnit
     float distance = 0;
     public int idMerge = 1;
     public Vector3[] pathArray;
+    public TextMeshProUGUI text;
+
 
     private void OnEnable()
     {
         rb.velocity = initialVelocity;
         isMovePath = false;
+        text.text = InGameManager.Ins.ScoreBall(idMerge).ToString();
     }
     private void Start()
     {
