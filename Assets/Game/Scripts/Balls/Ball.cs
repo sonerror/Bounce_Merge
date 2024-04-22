@@ -76,20 +76,21 @@ public class Ball : GameUnit
             {
                 BallQueueManager.Ins.ballsWait.Add(this);
                 InGameManager.Ins.countBall++;
+                this.rb.constraints = RigidbodyConstraints.FreezePosition;
             });
             Array.Resize(ref PathController.Ins.pathArray, PathController.Ins.pathArray.Length - 1);
             isMovePath = true;
         }
     }
-    public void MoveToStartPos(Transform tf)
+    public void MoveToStartPos(Transform tf, int _i)
     {
-        StartCoroutine(IE_MoveToStartPos(tf));
-    }    
-    IEnumerator IE_MoveToStartPos(Transform tf)
+        StartCoroutine(IE_MoveToStartPos(tf, _i));
+    }
+    IEnumerator IE_MoveToStartPos(Transform tf, int _i)
     {
         Vector3[] pathPos = new Vector3[2];
         pathPos[0] = tf.position;
-        pathPos[1] = pathArray[pathArray.Length - 1];
+        pathPos[1] = pathArray[pathArray.Length - _i + 1];
         yield return tf.DOPath(pathPos, 0.3f, pathType);
     }
     private void Bounce(Vector3 collisionNormal)

@@ -1,11 +1,13 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    public int scorePlatform = 100;
+    public TextMeshProUGUI textScore;
+    public int scorePlatform = 33;
     private void Start()
     {
 
@@ -16,6 +18,11 @@ public class Platform : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        else
+        {
+            textScore.text = scorePlatform.ToString();
+        }
+
     }
     private void OnCollisionEnter(Collision collision)
     {

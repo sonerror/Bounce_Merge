@@ -1097,7 +1097,7 @@ MonoBehaviour:
   Pool:
   - root: {fileID: 1498740071}
     prefab: {fileID: -6970980175683562694, guid: 598395dcc28d8b14b88df8968b1e870d, type: 3}
-    amount: 50
+    amount: 0
     collect: 0
   Particle: []
 --- !u!1660057539 &9223372036854775807

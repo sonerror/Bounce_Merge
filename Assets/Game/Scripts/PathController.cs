@@ -2,14 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathController : Singleton<PathController>
+public class PathController : MonoBehaviour
 {
+    private static PathController _ins;
+    public static PathController Ins => _ins;
     [SerializeField]
     Transform tFPath;
     public Vector3[] pathArray;
     public List<Transform> pathList;
     public List<QueueBall> queueBalls;
 
+    private void Awake()
+    {
+        _ins = this;
+
+    }
     private void Start()
     {
         Oninit();
