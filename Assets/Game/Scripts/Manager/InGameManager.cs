@@ -25,6 +25,7 @@ public class InGameManager : MonoBehaviour
     public void Start()
     {
         Oninit();
+        isMerge = true;
     }
     private void Update()
     {
@@ -32,9 +33,9 @@ public class InGameManager : MonoBehaviour
     }
     void SetMergeBall()
     {
-        
         if (isRotationCannon())
         {
+            if(isMerge == false)
             {
                 StartCoroutine(MergeBallAfterShoot());
                 isMerge = true;
@@ -72,7 +73,7 @@ public class InGameManager : MonoBehaviour
         pathController.Oninit();
         countBall = 0;
         ballSpawns = 0;
-        isMerge = false;
+      
         int countBall1 = BallQueueManager.Ins.ballsWait.Count;
         for (int i = 0; i < countBall1; i++)
         {
@@ -102,6 +103,7 @@ public class InGameManager : MonoBehaviour
         }
         BallQueueManager.Ins.ballsWait.Clear();
         DataManager.Ins.playerData.idMerge.Clear();
+        isMerge = false;
     }
     public int ScoreBall(int n)
     {

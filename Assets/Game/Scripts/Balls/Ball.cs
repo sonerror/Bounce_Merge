@@ -37,12 +37,12 @@ public class Ball : GameUnit
     public void Oninit(int i)
     {
         idMerge = DataManager.Ins.playerData.idMerge[i];
-        Debug.LogError(scoreBall + " score");
     }
 
     private void Update()
     {
-        text.text = InGameManager.Ins.ScoreBall(idMerge).ToString();
+        scoreBall = InGameManager.Ins.ScoreBall(idMerge);
+        text.text = scoreBall.ToString();
         lastFrameVelocity = rb.velocity;
         if (isMovePath == false)
         {

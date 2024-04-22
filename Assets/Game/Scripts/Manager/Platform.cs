@@ -22,6 +22,7 @@ public class Platform : MonoBehaviour
             ball.rb.constraints = RigidbodyConstraints.None;
             ball.rb.constraints = RigidbodyConstraints.FreezePositionZ |
             RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+            ball.idMerge = 2;
             InGameManager.Ins.ballSpawns++;
         }
         else
@@ -35,10 +36,8 @@ public class Platform : MonoBehaviour
         if (collision.collider.CompareTag("Ball"))
         {
             Punch();
-            Debug.LogError(collision.collider.gameObject.name);
             Ball ball = collision.collider.GetComponent<Ball>();
             scorePlatform -= ball.scoreBall;
-            Debug.LogError(scorePlatform);
         }
     }
     public void Punch()

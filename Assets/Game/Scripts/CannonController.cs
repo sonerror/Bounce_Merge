@@ -15,7 +15,7 @@ public class CannonController : MonoBehaviour
     }
     private void Update()
     {
-        if(InGameManager.Ins.isRoCannon == true)
+        if(InGameManager.Ins.isRotationCannon())
         {
             if (Input.GetMouseButtonDown(0))
             {
