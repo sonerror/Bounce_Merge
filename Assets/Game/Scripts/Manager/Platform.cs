@@ -10,13 +10,19 @@ public class Platform : MonoBehaviour
     public int scorePlatform = 33;
     private void Start()
     {
-
+        scorePlatform = 33;
     }
     private void Update()
     {
         if (scorePlatform <= 0)
         {
             Destroy(this.gameObject);
+            Ball ball = SimplePool.Spawn<Ball>(PoolType.ball);
+            ball.transform.position = this.transform.position;
+            ball.rb.constraints = RigidbodyConstraints.None;
+            ball.rb.constraints = RigidbodyConstraints.FreezePositionZ |
+            RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+            InGameManager.Ins.ballSpawns++;
         }
         else
         {

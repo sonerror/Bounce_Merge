@@ -3300,7 +3300,6 @@ MonoBehaviour:
   - {fileID: 1009752800}
   - {fileID: 1979464010}
   - {fileID: 1498192781}
-  - {fileID: 1979464010}
   queueBalls:
   - isSort: 0
     posSort: {fileID: 0}
@@ -4598,6 +4597,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballsWait: []
   pathController: {fileID: 0}
+  pathArray: []
+  pathType: 0
 --- !u!1 &1858231178
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,9 @@ public class InGameManager : MonoBehaviour
     public PathController pathController;
     public int countBall = 0;
     public int ballSpawns = 0; // cu spawn ra la phai cong vao
+    public bool isRoCannon = false;
+    public bool isMerge = false;
+
     private void Awake()
     {
         _ins = this;
@@ -23,14 +26,36 @@ public class InGameManager : MonoBehaviour
     {
         Oninit();
     }
+    private void Update()
+    {
+        SetMergeBall();
+    }
+    void SetMergeBall()
+    {
+        
+        if (isRotationCannon())
+        {
+            {
+                StartCoroutine(MergeBallAfterShoot());
+                isMerge = true;
+            }
+            isRoCannon = true;
+        }
+    }
+    IEnumerator MergeBallAfterShoot()
+    {
+        yield return new WaitForSeconds(1f);
+        MergeBall.Ins.MergeNumbers(DataManager.Ins.playerData.idMerge);
+    }
     public void Oninit()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < DataManager.Ins.playerData.idMerge.Count; i++)
         {
             Ball ball = SimplePool.Spawn<Ball>(PoolType.ball);
-            ball.transform.position = pathController.pathList[pathController.pathList.Count - (i + 1)].transform.position;
+            ball.transform.position = pathController.pathList[pathController.pathList.Count - i - 1].transform.position;
+            ball.Oninit(i);
             ball.rb.velocity = Vector3.zero;
-            ball.rb.constraints = RigidbodyConstraints.FreezePosition; 
+            ball.rb.constraints = RigidbodyConstraints.FreezePosition;
             BallQueueManager.Ins.ballsWait.Add(ball);
         }
     }
@@ -47,6 +72,7 @@ public class InGameManager : MonoBehaviour
         pathController.Oninit();
         countBall = 0;
         ballSpawns = 0;
+        isMerge = false;
         int countBall1 = BallQueueManager.Ins.ballsWait.Count;
         for (int i = 0; i < countBall1; i++)
         {
@@ -55,19 +81,27 @@ public class InGameManager : MonoBehaviour
             Ball ball = SimplePool.Spawn<Ball>(PoolType.ball);
             ball.rb.constraints = RigidbodyConstraints.None;
             yield return new WaitForEndOfFrame();
-            ball.rb.constraints = RigidbodyConstraints.FreezePositionZ |
-            RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+            ball.rb.constraints =
+                RigidbodyConstraints.FreezePositionZ
+                | RigidbodyConstraints.FreezeRotationX
+                | RigidbodyConstraints.FreezeRotationY;
             ballSpawns++;
             ball.transform.position = tfCannon.position;
             ball.transform.rotation = Quaternion.Euler(0f, 0f, rotation.eulerAngles.z);
-            ball.Oninit();
+            ball.Oninit(i);
             Rigidbody ballRb = ball.GetComponent<Rigidbody>();
             ballRb.velocity = direction * 90f;
             Ball ballWait = BallQueueManager.Ins.ballsWait[i];
+            if (i + 1 < countBall1)
+            {
+                Ball ballMove = BallQueueManager.Ins.ballsWait[i + 1];
+                BallQueueManager.Ins.MoveToStartPos(ballMove.transform, i + 1);
+            }
             SimplePool.Despawn(ballWait);
             yield return new WaitForSeconds(0.3f);
         }
         BallQueueManager.Ins.ballsWait.Clear();
+        DataManager.Ins.playerData.idMerge.Clear();
     }
     public int ScoreBall(int n)
     {

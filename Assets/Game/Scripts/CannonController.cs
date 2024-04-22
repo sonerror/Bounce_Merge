@@ -15,7 +15,7 @@ public class CannonController : MonoBehaviour
     }
     private void Update()
     {
-        if(InGameManager.Ins.isRotationCannon())
+        if(InGameManager.Ins.isRoCannon == true)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -43,7 +43,7 @@ public class CannonController : MonoBehaviour
                 {
                     InGameManager.Ins.ShootBall(hitInfo.point);
                 }
-
+                InGameManager.Ins.isRoCannon = false;
             }
         }    
     }

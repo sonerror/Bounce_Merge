@@ -27,20 +27,22 @@ public class Ball : GameUnit
     {
         rb.velocity = initialVelocity;
         isMovePath = false;
-        text.text = InGameManager.Ins.ScoreBall(idMerge).ToString();
+      
     }
     private void Start()
     {
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Ball"), true);
         pathArray = PathController.Ins.pathArray;
     }
-    public void Oninit()
+    public void Oninit(int i)
     {
-        scoreBall = InGameManager.Ins.ScoreBall(idMerge);
+        idMerge = DataManager.Ins.playerData.idMerge[i];
+        Debug.LogError(scoreBall + " score");
     }
 
     private void Update()
     {
+        text.text = InGameManager.Ins.ScoreBall(idMerge).ToString();
         lastFrameVelocity = rb.velocity;
         if (isMovePath == false)
         {
@@ -77,22 +79,13 @@ public class Ball : GameUnit
                 BallQueueManager.Ins.ballsWait.Add(this);
                 InGameManager.Ins.countBall++;
                 this.rb.constraints = RigidbodyConstraints.FreezePosition;
+                DataManager.Ins.playerData.idMerge.Add(this.idMerge);
             });
             Array.Resize(ref PathController.Ins.pathArray, PathController.Ins.pathArray.Length - 1);
             isMovePath = true;
         }
     }
-    public void MoveToStartPos(Transform tf, int _i)
-    {
-        StartCoroutine(IE_MoveToStartPos(tf, _i));
-    }
-    IEnumerator IE_MoveToStartPos(Transform tf, int _i)
-    {
-        Vector3[] pathPos = new Vector3[2];
-        pathPos[0] = tf.position;
-        pathPos[1] = pathArray[pathArray.Length - _i + 1];
-        yield return tf.DOPath(pathPos, 0.3f, pathType);
-    }
+   
     private void Bounce(Vector3 collisionNormal)
     {
         var direction = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);

@@ -23,8 +23,10 @@ public class GameManager : Singleton<GameManager>
             () => (
             Ins != null
              && UIManager.Ins != null
+             && DataManager.Ins != null
             )
         );
         UIManager.Ins.OpenUI<Loading>();
+        DataManager.Ins.LoadData();
     }
 }
