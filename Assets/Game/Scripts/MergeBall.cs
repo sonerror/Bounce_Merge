@@ -10,14 +10,11 @@ public class MergeBall : MonoBehaviour
     {
         _ins = this;
     }
+
     public void MergeNumbers(List<int> numbers)
     {
-        StartCoroutine(IE_MergeNumbers(numbers));
-    }
-
-    private IEnumerator IE_MergeNumbers(List<int> numbers)
-    {
         int n = numbers.Count;
+        int j = 0;
         for (int i = 0; i < n - 1; i++)
         {
             if (numbers[i] != 0 && numbers[i] == numbers[i + 1])
@@ -25,18 +22,9 @@ public class MergeBall : MonoBehaviour
                 numbers[i] += 1;
                 BallQueueManager.Ins.ballsWait[i].idMerge = numbers[i];
                 SimplePool.Despawn(BallQueueManager.Ins.ballsWait[i + 1]);
-                BallQueueManager.Ins.ballsWait.RemoveAt(i + 1);
                 numbers[i + 1] = 0;
-                MoveNumbersToLeft(numbers);
-                yield return new WaitForEndOfFrame();
             }
         }
-        numbers.RemoveAll(num => num == 0);
-    }
-    private void MoveNumbersToLeft(List<int> numbers)
-    {
-        int n = numbers.Count;
-        int j = 0;
         for (int i = 0; i < n; i++)
         {
             if (numbers[i] != 0)
@@ -48,6 +36,30 @@ public class MergeBall : MonoBehaviour
         {
             numbers[i] = 0;
         }
+        numbers.RemoveAll(num => num == 0);
     }
-
+    public void MergeNumbers1(List<Ball> numbers)
+    {
+        int n = numbers.Count;
+        int j = 0;
+        for (int i = 0; i < n - 1; i++)
+        {
+            if (numbers[i].idMerge != 0 && numbers[i].idMerge == numbers[i + 1].idMerge)
+            {
+                numbers[i + 1].idMerge = 0;
+            }
+        }
+        for (int i = 0; i < n; i++)
+        {
+            if (numbers[i].idMerge != 0)
+            {
+                numbers[j++].idMerge = numbers[i].idMerge;
+            }
+        }
+        for (int i = j; i < n; i++)
+        {
+            numbers[i].idMerge = 0;
+        }
+        numbers.RemoveAll(num => num.idMerge == 0);
+    }
 }

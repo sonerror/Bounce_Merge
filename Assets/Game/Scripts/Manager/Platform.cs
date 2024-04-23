@@ -13,7 +13,6 @@ public class Platform : GameUnit
     }
     private void Update()
     {
-
         if (scorePlatform <= 0)
         {
             Ball ball = SimplePool.Spawn<Ball>(PoolType.ball);
@@ -43,7 +42,7 @@ public class Platform : GameUnit
         if (collision.collider.CompareTag("Wall_Lose"))
         {
             Debug.LogError("Lose");
-            InGameManager.Ins.SpawnBomb(collision.collider.transform);
+            //InGameManager.Ins.SpawnBomb(collision.collider.transform);
             UIManager.Ins.OpenUI<Lose>();
         }
     }

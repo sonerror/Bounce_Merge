@@ -33,7 +33,7 @@ public class InGameManager : MonoBehaviour
     private void Update()
     {
         SetMergeBall();
-        
+
     }
     void SetMergeBall()
     {
@@ -50,16 +50,17 @@ public class InGameManager : MonoBehaviour
     IEnumerator MergeBallAfterShoot()
     {
         yield return new WaitForSeconds(1f);
-        MergeBall.Ins.MergeNumbers(DataManager.Ins.playerData.idMerge);
+        //MergeBall.Ins.MergeNumbers(DataManager.Ins.playerData.idMerge);
+        MergeBall.Ins.MergeNumbers1(BallQueueManager.Ins.ballsWait);
         yield return new WaitForEndOfFrame();
         if (isRotationCannon() && PlatformManager.Ins.platform.Count == 0)
         {
             PlatformManager.Ins.LoadPlatform();
         }
-        else if(isRotationCannon() && PlatformManager.Ins.platform.Count > 0)
+        else if (isRotationCannon() && PlatformManager.Ins.platform.Count > 0)
         {
             PlatformManager.Ins.LoadPlatform();
-        }    
+        }
     }
 
     void MoveBall()
@@ -137,6 +138,6 @@ public class InGameManager : MonoBehaviour
     public void SpawnBomb(Transform tf)
     {
         Instantiate(bomb, tf);
-        Destroy(bomb,2f);
-    }    
+        Destroy(bomb, 2f);
+    }
 }
