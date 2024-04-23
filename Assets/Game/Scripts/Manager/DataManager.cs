@@ -30,28 +30,37 @@ public class DataManager : Singleton<DataManager>
         else
         {
             playerData = new PlayerData();
+            FirstLoadData();
         }
+        
         isLoaded = true;
+    }
+    void FirstLoadData()
+    {
+        PlatformManager.Ins.Oninit();
     }
 }
 [System.Serializable]
 public class PlayerData
 {
     public List<int> idMerge;
+    public List<PlatformInfo> platformInfo;
     public PlayerData()
     {
         idMerge = new List<int>();
         idMerge.Add(0);
         idMerge.Add(1);
-        idMerge.Add(2);
-        idMerge.Add(3);
-        idMerge.Add(4);
         idMerge[0] = 2;
         idMerge[1] = 1;
-        idMerge[2] = 2;
-        idMerge[3] = 1;
-        idMerge[4] = 2;
+        platformInfo = new List<PlatformInfo>();
     }
 }
-
-
+[Serializable]
+public class PlatformInfo
+{
+    public int id;
+    public Vector3 position;
+    public Vector3 eulerAngle;
+    public Vector3 scale;
+    public int scorePlatform;
+}

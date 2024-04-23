@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Platform : MonoBehaviour
+public class Platform : GameUnit
 {
     public TextMeshProUGUI textScore;
     public int scorePlatform = 33;
     private void Start()
     {
-        scorePlatform = 33;
     }
     private void Update()
     {
@@ -24,6 +23,7 @@ public class Platform : MonoBehaviour
             RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
             ball.idMerge = 2;
             InGameManager.Ins.ballSpawns++;
+            PlatformManager.Ins.platform.Remove(this);
         }
         else
         {

@@ -26,6 +26,7 @@ public class InGameManager : MonoBehaviour
     {
         Oninit();
         isMerge = true;
+        PlatformManager.Ins.LoadPlatform();
     }
     private void Update()
     {
@@ -47,6 +48,15 @@ public class InGameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         MergeBall.Ins.MergeNumbers(DataManager.Ins.playerData.idMerge);
+        yield return new WaitForEndOfFrame();
+    }
+
+    void MoveBall()
+    {
+        for(int i = 0;i < BallQueueManager.Ins.ballsWait.Count;i++)
+        {
+            BallQueueManager.Ins.ballsWait[i].transform.DOPath(PathController.Ins.pathArray, 3f, PathType.CatmullRom);
+        }
     }
     public void Oninit()
     {
