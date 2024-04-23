@@ -28,7 +28,7 @@ public class MergeBall : MonoBehaviour
                 BallQueueManager.Ins.ballsWait.RemoveAt(i + 1);
                 numbers[i + 1] = 0;
                 MoveNumbersToLeft(numbers);
-                yield return null;
+                yield return new WaitForEndOfFrame();
             }
         }
         numbers.RemoveAll(num => num == 0);

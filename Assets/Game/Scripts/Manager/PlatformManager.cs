@@ -20,6 +20,10 @@ public class PlatformManager : MonoBehaviour
     {
 
     }
+    private void Update()
+    {
+
+    }
     public void Oninit()
     {
         LoadFirst();
@@ -29,7 +33,7 @@ public class PlatformManager : MonoBehaviour
         for (int i = 0; i < DataManager.Ins.playerData.platformInfo.Count; i++)
         {
             var platformInfo = DataManager.Ins.playerData.platformInfo;
-            SpawnPlatform(1, platformInfo[i]);
+            SpawnPlatform(3, platformInfo[i]);
         }
         StartCoroutine(IE_MoveP());
     }
@@ -40,7 +44,7 @@ public class PlatformManager : MonoBehaviour
             Debug.LogError("first Load");
             for (int i = 0; i < 3; i++)
             {
-                GetPlatformInfoData(i);
+                GetPlatformInfoData(i, i);
             }
         }
     }
@@ -49,9 +53,13 @@ public class PlatformManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         foreach (Transform tfChid in tf)
         {
-            yield return tfChid.transform.DOMoveY(tfChid.transform.position.y + 10f, 2f).SetEase(Ease.Linear);
+            yield return tfChid.transform.DOMoveY(tfChid.transform.position.y + 10f, 2f).OnComplete(() =>
+            {
+                InGameManager.Ins.isRo = true;
+            }).SetEase(Ease.Linear);
         }
         yield return new WaitForEndOfFrame();
+
     }
     public void UpdatePos()
     {
@@ -62,15 +70,17 @@ public class PlatformManager : MonoBehaviour
             platformInfo[i].position.y = platformInfo[i].position.y + 10f;
         }
     }
-    public void GetPlatformInfoData(int id)
+    public void GetPlatformInfoData(int id, int i)
     {
         var platformInfo = DataManager.Ins.playerData.platformInfo;
         PlatformInfo platform = new PlatformInfo();
+        List<float> pos = new List<float> { -5f, 3.4f, 11.0f };
+        float randomY = UnityEngine.Random.Range(1, 3);
         platform.id = id;
-        platform.position = GetTransform();
+        platform.position = new Vector3(pos[i], 1.1f + randomY, 0);
         platform.eulerAngle = GetAngleRanDom();
         platform.scale = GetScale();
-        platform.scorePlatform = (int)Math.Pow(2, (GetScorePlatform() + 1));
+        platform.scorePlatform = (int)Math.Pow(2, (GetScorePlatform() + 1)) + 1;
         platformInfo.Add(platform);
     }
     public void SpawnPlatform(int id, PlatformInfo platformInfo)
@@ -79,8 +89,8 @@ public class PlatformManager : MonoBehaviour
         _platform.transform.position = platformInfo.position;
         _platform.transform.rotation = Quaternion.Euler(platformInfo.eulerAngle);
         _platform.transform.localScale = platformInfo.scale;
-        _platform.scorePlatform = platformInfo.scorePlatform;
-        platform.Add( _platform );
+        _platform.scorePlatform = (int)Math.Pow(2, (GetScorePlatform() + 1)) + 1;
+        platform.Add(_platform);
     }
     public int GetScorePlatform()
     {

@@ -43,7 +43,7 @@ public class BallQueueManager : Singleton<BallQueueManager>
         {
             Vector3[] pathPos = new Vector3[3];
             pathPos[0] = tf.position;
-            pathPos[1] = pathArray[pathArray.Length - 7];
+            pathPos[1] = pathArray[pathArray.Length - 6];
             pathPos[2] = pathArray[pathArray.Length - 1];
             yield return tf.DOPath(pathPos, 0.3f + _i / 10, pathType);
         }

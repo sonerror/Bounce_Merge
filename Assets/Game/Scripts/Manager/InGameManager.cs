@@ -17,7 +17,8 @@ public class InGameManager : MonoBehaviour
     public int ballSpawns = 0; // cu spawn ra la phai cong vao
     public bool isRoCannon = false;
     public bool isMerge = false;
-
+    public bool isRo = false;
+    public GameObject bomb;
     private void Awake()
     {
         _ins = this;
@@ -26,17 +27,19 @@ public class InGameManager : MonoBehaviour
     {
         Oninit();
         isMerge = true;
+        isRo = false;
         PlatformManager.Ins.LoadPlatform();
     }
     private void Update()
     {
         SetMergeBall();
+        
     }
     void SetMergeBall()
     {
         if (isRotationCannon())
         {
-            if(isMerge == false)
+            if (isMerge == false)
             {
                 StartCoroutine(MergeBallAfterShoot());
                 isMerge = true;
@@ -49,11 +52,19 @@ public class InGameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         MergeBall.Ins.MergeNumbers(DataManager.Ins.playerData.idMerge);
         yield return new WaitForEndOfFrame();
+        if (isRotationCannon() && PlatformManager.Ins.platform.Count == 0)
+        {
+            PlatformManager.Ins.LoadPlatform();
+        }
+        else if(isRotationCannon() && PlatformManager.Ins.platform.Count > 0)
+        {
+            PlatformManager.Ins.LoadPlatform();
+        }    
     }
 
     void MoveBall()
     {
-        for(int i = 0;i < BallQueueManager.Ins.ballsWait.Count;i++)
+        for (int i = 0; i < BallQueueManager.Ins.ballsWait.Count; i++)
         {
             BallQueueManager.Ins.ballsWait[i].transform.DOPath(PathController.Ins.pathArray, 3f, PathType.CatmullRom);
         }
@@ -83,7 +94,7 @@ public class InGameManager : MonoBehaviour
         pathController.Oninit();
         countBall = 0;
         ballSpawns = 0;
-      
+
         int countBall1 = BallQueueManager.Ins.ballsWait.Count;
         for (int i = 0; i < countBall1; i++)
         {
@@ -123,4 +134,9 @@ public class InGameManager : MonoBehaviour
     {
         return countBall >= ballSpawns;
     }
+    public void SpawnBomb(Transform tf)
+    {
+        Instantiate(bomb, tf);
+        Destroy(bomb,2f);
+    }    
 }

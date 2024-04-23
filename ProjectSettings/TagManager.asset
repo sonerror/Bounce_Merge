@@ -7,6 +7,7 @@ TagManager:
   - Ball
   - Wall
   - Wall_Down
+  - Wall_Lose
   layers:
   - Default
   - TransparentFX

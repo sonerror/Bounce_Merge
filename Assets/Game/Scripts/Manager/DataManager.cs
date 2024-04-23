@@ -50,8 +50,20 @@ public class PlayerData
         idMerge = new List<int>();
         idMerge.Add(0);
         idMerge.Add(1);
+        idMerge.Add(2);
+        idMerge.Add(3);
+        idMerge.Add(4);
+        idMerge.Add(5);
+        idMerge.Add(6);
+        idMerge.Add(7);
         idMerge[0] = 2;
         idMerge[1] = 1;
+        idMerge[2] = 2;
+        idMerge[3] = 1;
+        idMerge[4] = 2;
+        idMerge[5] = 1;
+        idMerge[6] = 2;
+        idMerge[7] = 1;
         platformInfo = new List<PlatformInfo>();
     }
 }

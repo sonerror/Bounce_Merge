@@ -15,15 +15,10 @@ public class PathController : MonoBehaviour
     private void Awake()
     {
         _ins = this;
-
     }
     private void Start()
     {
         Oninit();
-
-        GetQueueBall();
-
-
     }
     public void Oninit()
     {

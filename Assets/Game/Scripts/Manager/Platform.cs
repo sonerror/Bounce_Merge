@@ -13,9 +13,9 @@ public class Platform : GameUnit
     }
     private void Update()
     {
+
         if (scorePlatform <= 0)
         {
-            Destroy(this.gameObject);
             Ball ball = SimplePool.Spawn<Ball>(PoolType.ball);
             ball.transform.position = this.transform.position;
             ball.rb.constraints = RigidbodyConstraints.None;
@@ -24,6 +24,7 @@ public class Platform : GameUnit
             ball.idMerge = 2;
             InGameManager.Ins.ballSpawns++;
             PlatformManager.Ins.platform.Remove(this);
+            Destroy(this.gameObject);
         }
         else
         {
@@ -39,7 +40,14 @@ public class Platform : GameUnit
             Ball ball = collision.collider.GetComponent<Ball>();
             scorePlatform -= ball.scoreBall;
         }
+        if (collision.collider.CompareTag("Wall_Lose"))
+        {
+            Debug.LogError("Lose");
+            InGameManager.Ins.SpawnBomb(collision.collider.transform);
+            UIManager.Ins.OpenUI<Lose>();
+        }
     }
+
     public void Punch()
     {
         transform.DOShakePosition(0.3f, strength: new Vector3(0.3f, 0.3f, 0), vibrato: 10, randomness: 90);

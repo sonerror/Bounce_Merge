@@ -814,6 +814,7 @@ MonoBehaviour:
   - {fileID: 8796047414136823652, guid: ad4681ae2078e7241b99fe269c469bb7, type: 3}
   - {fileID: 5171898574142955921, guid: dbcb74b3d0953bd43a9c01799ac3c9d9, type: 3}
   - {fileID: 1274532387128042655, guid: 8044dda17d2270145abd0bae3a752528, type: 3}
+  - {fileID: 6823208601159498359, guid: e77917eb43634614fa6186dcb90331fe, type: 3}
   CanvasParentTF: {fileID: 480448428}
   bg: {fileID: 1692138409}
 --- !u!1 &1546045202
@@ -1140,6 +1141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformAssetData: {fileID: 11400000, guid: 74f515b5e1fa34d44b1d653e8fe7a578, type: 2}
   tf: {fileID: 678696171}
+  platform: []
 --- !u!1 &1978533028
 GameObject:
   m_ObjectHideFlags: 0
