@@ -18,7 +18,10 @@ public class InGameManager : MonoBehaviour
     public bool isRoCannon = false;
     public bool isMerge = false;
     public bool isRo = false;
+    public bool isMergeList = false;
     public GameObject bomb;
+    public int scoreCombo = 0;
+   
     private void Awake()
     {
         _ins = this;
@@ -33,7 +36,6 @@ public class InGameManager : MonoBehaviour
     private void Update()
     {
         SetMergeBall();
-
     }
     void SetMergeBall()
     {
@@ -49,10 +51,15 @@ public class InGameManager : MonoBehaviour
     }
     IEnumerator MergeBallAfterShoot()
     {
+        Time.timeScale = 1;
+        BallQueueManager.Ins.Oninit();
         yield return new WaitForSeconds(1f);
-        //MergeBall.Ins.MergeNumbers(DataManager.Ins.playerData.idMerge);
+        MergeBall.Ins.MergeNumbers(DataManager.Ins.playerData.idMerge);
         MergeBall.Ins.MergeNumbers1(BallQueueManager.Ins.ballsWait);
         yield return new WaitForEndOfFrame();
+        MatManager.Ins.ChangeMatList();
+        DataManager.Ins.playerData.totalScore += scoreCombo;
+        scoreCombo = 0;
         if (isRotationCannon() && PlatformManager.Ins.platform.Count == 0)
         {
             PlatformManager.Ins.LoadPlatform();
@@ -61,8 +68,8 @@ public class InGameManager : MonoBehaviour
         {
             PlatformManager.Ins.LoadPlatform();
         }
+        
     }
-
     void MoveBall()
     {
         for (int i = 0; i < BallQueueManager.Ins.ballsWait.Count; i++)
@@ -72,19 +79,17 @@ public class InGameManager : MonoBehaviour
     }
     public void Oninit()
     {
+        isMergeList = false;
         for (int i = 0; i < DataManager.Ins.playerData.idMerge.Count; i++)
         {
             Ball ball = SimplePool.Spawn<Ball>(PoolType.ball);
             ball.transform.position = pathController.pathList[pathController.pathList.Count - i - 1].transform.position;
             ball.Oninit(i);
+            ball.isSum = false;
             ball.rb.velocity = Vector3.zero;
-            ball.rb.constraints = RigidbodyConstraints.FreezePosition;
+            ball.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePosition;
             BallQueueManager.Ins.ballsWait.Add(ball);
         }
-    }
-    IEnumerator I_InitGame()
-    {
-        yield return null;
     }
     public void ShootBall(Vector3 targetPosition)
     {
@@ -95,7 +100,6 @@ public class InGameManager : MonoBehaviour
         pathController.Oninit();
         countBall = 0;
         ballSpawns = 0;
-
         int countBall1 = BallQueueManager.Ins.ballsWait.Count;
         for (int i = 0; i < countBall1; i++)
         {
@@ -112,8 +116,10 @@ public class InGameManager : MonoBehaviour
             ball.transform.position = tfCannon.position;
             ball.transform.rotation = Quaternion.Euler(0f, 0f, rotation.eulerAngles.z);
             ball.Oninit(i);
+            ball.isSum = true;
             Rigidbody ballRb = ball.GetComponent<Rigidbody>();
             ballRb.velocity = direction * 90f;
+            yield return new WaitForEndOfFrame();
             Ball ballWait = BallQueueManager.Ins.ballsWait[i];
             if (i + 1 < countBall1)
             {
@@ -121,11 +127,12 @@ public class InGameManager : MonoBehaviour
                 BallQueueManager.Ins.MoveToStartPos(ballMove.transform, i + 1);
             }
             SimplePool.Despawn(ballWait);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.35f);
         }
         BallQueueManager.Ins.ballsWait.Clear();
         DataManager.Ins.playerData.idMerge.Clear();
         isMerge = false;
+        isMergeList = true;
     }
     public int ScoreBall(int n)
     {

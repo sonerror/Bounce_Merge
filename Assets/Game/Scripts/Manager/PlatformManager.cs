@@ -74,13 +74,20 @@ public class PlatformManager : MonoBehaviour
     {
         var platformInfo = DataManager.Ins.playerData.platformInfo;
         PlatformInfo platform = new PlatformInfo();
-        List<float> pos = new List<float> { -5f, 3.4f, 11.0f };
-        float randomY = UnityEngine.Random.Range(1, 3);
+        List<float> pos = new List<float> { -5.5f, 2.4f, 11.0f };
+        float randomY = UnityEngine.Random.Range(1, 5);
         platform.id = id;
         platform.position = new Vector3(pos[i], 1.1f + randomY, 0);
         platform.eulerAngle = GetAngleRanDom();
         platform.scale = GetScale();
-        platform.scorePlatform = (int)Math.Pow(2, (GetScorePlatform() + 1)) + 1;
+        if (GetScorePlatform() > 6)
+        {
+            platform.scorePlatform = (int)Math.Pow(2, (GetScorePlatform() + 3)) + 1;
+        }
+        else
+        {
+            platform.scorePlatform = (int)Math.Pow(2, (GetScorePlatform() + 1)) + 1;
+        }
         platformInfo.Add(platform);
     }
     public void SpawnPlatform(int id, PlatformInfo platformInfo)
@@ -89,7 +96,14 @@ public class PlatformManager : MonoBehaviour
         _platform.transform.position = platformInfo.position;
         _platform.transform.rotation = Quaternion.Euler(platformInfo.eulerAngle);
         _platform.transform.localScale = platformInfo.scale;
-        _platform.scorePlatform = (int)Math.Pow(2, (GetScorePlatform() + 1)) + 1;
+        if (GetScorePlatform() > 6)
+        {
+            _platform.scorePlatform = (int)Math.Pow(2, (GetScorePlatform() + 3)) + 1;
+        }
+        else
+        {
+            _platform.scorePlatform = (int)Math.Pow(2, (GetScorePlatform() + 1)) + 1;
+        }
         platform.Add(_platform);
     }
     public int GetScorePlatform()

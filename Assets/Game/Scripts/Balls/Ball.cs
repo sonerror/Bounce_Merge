@@ -21,13 +21,14 @@ public class Ball : GameUnit
     public int idMerge = 1;
     public Vector3[] pathArray;
     public TextMeshProUGUI text;
-
+    public MeshRenderer mat;
+    public bool isSum = false;
 
     private void OnEnable()
     {
         rb.velocity = initialVelocity;
         isMovePath = false;
-      
+        isSum = false;
     }
     private void Start()
     {
@@ -37,8 +38,8 @@ public class Ball : GameUnit
     public void Oninit(int i)
     {
         idMerge = DataManager.Ins.playerData.idMerge[i];
+        MatManager.Ins.ChangeMat(idMerge, mat);
     }
-
     private void Update()
     {
         scoreBall = InGameManager.Ins.ScoreBall(idMerge);
@@ -55,37 +56,59 @@ public class Ball : GameUnit
                     distance = Vector2.Distance(this.transform.position, hit.point);
                     if (distance < 2)
                     {
+                        isSum = false;
+                        this.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePosition;
                         rb.velocity = Vector3.zero;
                         MovePointStart();
                     }
                 }
             }
         }
-
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Wall"))
         {
             Bounce(collision.contacts[0].normal);
+            if (isSum == true)
+            {
+                InGameManager.Ins.scoreCombo += scoreBall;
+            }
         }
     }
     public void MovePointStart()
     {
         if (isMovePath == false)
         {
-            this.transform.DOPath(PathController.Ins.pathArray, 3f, pathType).OnComplete(() =>
+            if (PathController.Ins.pathArray.Length > 0)
             {
-                BallQueueManager.Ins.ballsWait.Add(this);
-                InGameManager.Ins.countBall++;
-                this.rb.constraints = RigidbodyConstraints.FreezePosition;
-                DataManager.Ins.playerData.idMerge.Add(this.idMerge);
-            });
-            Array.Resize(ref PathController.Ins.pathArray, PathController.Ins.pathArray.Length - 1);
-            isMovePath = true;
+                this.transform.DOPath(PathController.Ins.pathArray, 3f, pathType).OnComplete(() =>
+                {
+                    BallQueueManager.Ins.ballsWaitTemp.Add(this);
+                    InGameManager.Ins.countBall++;
+                    this.rb.constraints = RigidbodyConstraints.FreezePosition;
+                    DataManager.Ins.playerData.idMerge.Add(this.idMerge);
+                });
+                Array.Resize(ref PathController.Ins.pathArray, PathController.Ins.pathArray.Length - 1);
+                isMovePath = true;
+            }
+            else
+            {
+                Vector3[] pathPos = new Vector3[2];
+                pathPos[0] = this.transform.position;
+                pathPos[1] = pathArray[0];
+                this.transform.DOPath(pathPos, 1f, pathType).OnComplete(() =>
+                {
+                    BallQueueManager.Ins.ballsWaitTemp.Add(this);
+                    InGameManager.Ins.countBall++;
+                    this.rb.constraints = RigidbodyConstraints.FreezePosition;
+                    DataManager.Ins.playerData.idMerge.Add(this.idMerge);
+                });
+                isMovePath = true;
+            }
+
         }
     }
-   
     private void Bounce(Vector3 collisionNormal)
     {
         var direction = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);

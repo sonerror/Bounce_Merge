@@ -6,6 +6,7 @@ using UnityEngine;
 public class BallQueueManager : Singleton<BallQueueManager>
 {
     public List<Ball> ballsWait;
+    public List<Ball> ballsWaitTemp;
     public PathController pathController;
     public Vector3[] pathArray;
     [SerializeField]
@@ -17,6 +18,12 @@ public class BallQueueManager : Singleton<BallQueueManager>
     private void Update()
     {
 
+    }
+    public void Oninit()
+    {
+        Debug.Log("s");
+        ballsWait = ballsWaitTemp;
+        //ballsWaitTemp.Clear();
     }
     public void MoveBallQueue(Transform tf, int _i)
     {
@@ -37,7 +44,10 @@ public class BallQueueManager : Singleton<BallQueueManager>
             Vector3[] pathPos = new Vector3[2];
             pathPos[0] = pathArray[pathArray.Length - 2];
             pathPos[1] = pathArray[pathArray.Length - 1];
-            yield return tf.DOPath(pathPos, 0.3f, pathType);
+            yield return tf.DOPath(pathPos, 0.3f, pathType).OnComplete(() =>
+            {
+                
+            });
         }
         else
         {
@@ -45,7 +55,10 @@ public class BallQueueManager : Singleton<BallQueueManager>
             pathPos[0] = tf.position;
             pathPos[1] = pathArray[pathArray.Length - 6];
             pathPos[2] = pathArray[pathArray.Length - 1];
-            yield return tf.DOPath(pathPos, 0.3f + _i / 10, pathType);
+            yield return tf.DOPath(pathPos,0.8f, pathType).OnComplete(()=>
+            {
+              
+            });
         }
     }
 }

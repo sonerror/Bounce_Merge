@@ -20,8 +20,6 @@ public class MergeBall : MonoBehaviour
             if (numbers[i] != 0 && numbers[i] == numbers[i + 1])
             {
                 numbers[i] += 1;
-                BallQueueManager.Ins.ballsWait[i].idMerge = numbers[i];
-                SimplePool.Despawn(BallQueueManager.Ins.ballsWait[i + 1]);
                 numbers[i + 1] = 0;
             }
         }
@@ -46,6 +44,7 @@ public class MergeBall : MonoBehaviour
         {
             if (numbers[i].idMerge != 0 && numbers[i].idMerge == numbers[i + 1].idMerge)
             {
+                numbers[i].idMerge += 1;
                 numbers[i + 1].idMerge = 0;
             }
         }
@@ -59,6 +58,13 @@ public class MergeBall : MonoBehaviour
         for (int i = j; i < n; i++)
         {
             numbers[i].idMerge = 0;
+        }
+        for (int i = 0; i < n; i++)
+        {
+            if (numbers[i].idMerge == 0)
+            {
+                SimplePool.Despawn(numbers[i]);
+            }
         }
         numbers.RemoveAll(num => num.idMerge == 0);
     }

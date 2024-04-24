@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Wall_Down
   - Wall_Lose
+  - Platform
   layers:
   - Default
   - TransparentFX
