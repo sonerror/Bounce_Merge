@@ -41,6 +41,8 @@ public class InGameManager : MonoBehaviour
     {
         if (isRotationCannon())
         {
+            MergeBall.Ins.MergeNumbers(DataManager.Ins.playerData.idMerge);
+            MergeBall.Ins.MergeNumbers1(BallQueueManager.Ins.ballsWait);
             if (isMerge == false)
             {
                 StartCoroutine(MergeBallAfterShoot());
@@ -51,13 +53,9 @@ public class InGameManager : MonoBehaviour
     }
     IEnumerator MergeBallAfterShoot()
     {
+        yield return new WaitForEndOfFrame();
         Time.timeScale = 1;
         BallQueueManager.Ins.Oninit();
-        yield return new WaitForSeconds(1f);
-        MergeBall.Ins.MergeNumbers(DataManager.Ins.playerData.idMerge);
-        MergeBall.Ins.MergeNumbers1(BallQueueManager.Ins.ballsWait);
-        yield return new WaitForEndOfFrame();
-        MatManager.Ins.ChangeMatList();
         DataManager.Ins.playerData.totalScore += scoreCombo;
         scoreCombo = 0;
         if (isRotationCannon() && PlatformManager.Ins.platform.Count == 0)

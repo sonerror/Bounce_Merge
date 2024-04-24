@@ -45,6 +45,7 @@ public class MergeBall : MonoBehaviour
             if (numbers[i].idMerge != 0 && numbers[i].idMerge == numbers[i + 1].idMerge)
             {
                 numbers[i].idMerge += 1;
+                MatManager.Ins.ChangeMat(numbers[i].idMerge, numbers[i].mat);
                 numbers[i + 1].idMerge = 0;
             }
         }

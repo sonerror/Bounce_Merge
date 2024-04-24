@@ -74,11 +74,11 @@ public class PlatformManager : MonoBehaviour
     {
         var platformInfo = DataManager.Ins.playerData.platformInfo;
         PlatformInfo platform = new PlatformInfo();
-        List<float> pos = new List<float> { 5.5f, 2.4f, 11.0f };
+        List<float> pos = new List<float> { -5.5f, 3.4f, 11.0f };
         float randomY = UnityEngine.Random.Range(1, 5);
         platform.id = id;
         platform.position = new Vector3(pos[i], 1.1f + randomY, 0);
-        platform.eulerAngle = GetAngleRanDom();
+        //platform.eulerAngle = GetAngleRanDom();
         platform.scale = GetScale();
         if (GetScorePlatform() > 6)
         {
@@ -94,7 +94,8 @@ public class PlatformManager : MonoBehaviour
     {
         Platform _platform = Instantiate(platformAssetData.GetPlatformWithID(id).platform, tf);
         _platform.transform.position = platformInfo.position;
-        _platform.transform.rotation = Quaternion.Euler(platformInfo.eulerAngle);
+        //_platform.transform.rotation = Quaternion.Euler(platformInfo.eulerAngle);
+        _platform.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
         _platform.transform.localScale = platformInfo.scale;
         if (GetScorePlatform() > 6)
         {
