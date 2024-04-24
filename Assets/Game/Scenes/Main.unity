@@ -1675,7 +1675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &678192449
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4044,7 +4044,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1547206994}
   m_Layer: 7
-  m_Name: WallL (4)
+  m_Name: WallLose
   m_TagString: Wall_Lose
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4060,7 +4060,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.69, y: 52.99, z: 0.01}
-  m_LocalScale: {x: 27.5, y: 1, z: 5}
+  m_LocalScale: {x: 25, y: 1, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1066992136}

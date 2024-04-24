@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +11,6 @@ public class CannonController : MonoBehaviour
     private void Start()
     {
         UIManager.Ins.GetUI<GamePlay>().imgTarget.SetActive(true);
-
     }
     private void Update()
     {
@@ -31,6 +30,7 @@ public class CannonController : MonoBehaviour
                 mousePosition.z = Camera.main.nearClipPlane;
                 Vector3 targetPosition = Camera.main.ScreenToWorldPoint(mousePosition);
                 Vector3 direction = transform.position - targetPosition;
+
                 Quaternion rotation = Quaternion.LookRotation(Vector3.forward, direction);
                 transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 50 * Time.deltaTime);
             }

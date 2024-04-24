@@ -22,13 +22,11 @@ public class Ball : GameUnit
     public Vector3[] pathArray;
     public TextMeshProUGUI text;
     public MeshRenderer mat;
-    public bool isSum = false;
 
     private void OnEnable()
     {
         rb.velocity = initialVelocity;
         isMovePath = false;
-        isSum = false;
     }
     private void Start()
     {
@@ -56,7 +54,6 @@ public class Ball : GameUnit
                     distance = Vector2.Distance(this.transform.position, hit.point);
                     if (distance < 2)
                     {
-                        isSum = false;
                         this.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePosition;
                         rb.velocity = Vector3.zero;
                         MovePointStart();
@@ -70,10 +67,7 @@ public class Ball : GameUnit
         if (collision.collider.CompareTag("Wall"))
         {
             Bounce(collision.contacts[0].normal);
-            if (isSum == true)
-            {
-                InGameManager.Ins.scoreCombo += scoreBall;
-            }
+               
         }
     }
     public void MovePointStart()

@@ -74,7 +74,7 @@ public class PlatformManager : MonoBehaviour
     {
         var platformInfo = DataManager.Ins.playerData.platformInfo;
         PlatformInfo platform = new PlatformInfo();
-        List<float> pos = new List<float> { -5.5f, 2.4f, 11.0f };
+        List<float> pos = new List<float> { 5.5f, 2.4f, 11.0f };
         float randomY = UnityEngine.Random.Range(1, 5);
         platform.id = id;
         platform.position = new Vector3(pos[i], 1.1f + randomY, 0);

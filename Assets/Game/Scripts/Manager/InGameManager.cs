@@ -80,14 +80,23 @@ public class InGameManager : MonoBehaviour
     public void Oninit()
     {
         isMergeList = false;
-        for (int i = 0; i < DataManager.Ins.playerData.idMerge.Count; i++)
+        DataManager dataManager = DataManager.Ins;
+
+        if (dataManager.playerData.idMerge.Count == 0)
+        {
+            PlayerPrefs.DeleteAll();
+            dataManager.LoadData();
+        }
+        int count = dataManager.playerData.idMerge.Count;
+
+        for (int i = 0; i < count; i++)
         {
             Ball ball = SimplePool.Spawn<Ball>(PoolType.ball);
             ball.transform.position = pathController.pathList[pathController.pathList.Count - i - 1].transform.position;
             ball.Oninit(i);
-            ball.isSum = false;
-            ball.rb.velocity = Vector3.zero;
-            ball.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePosition;
+            Rigidbody rb = ball.rb;
+            rb.velocity = Vector3.zero;
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePosition;
             BallQueueManager.Ins.ballsWait.Add(ball);
         }
     }
@@ -116,7 +125,6 @@ public class InGameManager : MonoBehaviour
             ball.transform.position = tfCannon.position;
             ball.transform.rotation = Quaternion.Euler(0f, 0f, rotation.eulerAngles.z);
             ball.Oninit(i);
-            ball.isSum = true;
             Rigidbody ballRb = ball.GetComponent<Rigidbody>();
             ballRb.velocity = direction * 90f;
             yield return new WaitForEndOfFrame();

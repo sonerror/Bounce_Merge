@@ -18,7 +18,6 @@ public class Platform : GameUnit
             ball.rb.constraints = RigidbodyConstraints.FreezePositionZ |
             RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
             ball.idMerge = 2;
-            ball.isSum = true;
             MatManager.Ins.ChangeMat(ball.idMerge, ball.mat);
             InGameManager.Ins.ballSpawns++;
             PlatformManager.Ins.platform.Remove(this);
@@ -37,12 +36,19 @@ public class Platform : GameUnit
             Punch();
             Ball ball = collision.collider.GetComponent<Ball>();
             scorePlatform -= ball.scoreBall;
-
+            InGameManager.Ins.scoreCombo += ball.scoreBall;
         }
         if (collision.collider.CompareTag("Wall_Lose"))
         {
             Debug.LogError("Lose");
             //InGameManager.Ins.SpawnBomb(collision.collider.transform);
+            for (int i = 0; i < PlatformManager.Ins.platform.Count; i++)
+            {
+                if (PlatformManager.Ins.platform[i].transform.position.y > 42)
+                {
+                    Destroy(PlatformManager.Ins.platform[i].transform.gameObject);
+                }
+            }
             UIManager.Ins.OpenUI<Lose>();
         }
     }
