@@ -46,6 +46,7 @@ public class PlayerData
     public List<int> idMerge;
     public List<PlatformInfo> platformInfo;
     public int totalScore;
+    public int countBom;
     public PlayerData()
     {
         idMerge = new List<int>();
@@ -55,6 +56,7 @@ public class PlayerData
         idMerge[1] = 2;
         platformInfo = new List<PlatformInfo>();
         totalScore = 0; 
+        countBom = 10;
     }
 }
 [Serializable]

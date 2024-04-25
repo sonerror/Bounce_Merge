@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GamePlay : UICanvas
 {
     public GameObject imgTarget;
     public TextMeshProUGUI textTotal;
     public TextMeshProUGUI textCombo;
+    public Button btn_bomb;
+    public TextMeshProUGUI textBomb;
     private void Start()
     {
         imgTarget.SetActive(false);
@@ -23,6 +26,7 @@ public class GamePlay : UICanvas
         int scoreCombo = InGameManager.Ins.scoreCombo;
         textTotal.text = FormatText.FormatNumber(totalScore);
         textCombo.text = FormatText.FormatNumber(scoreCombo);
+        textBomb.text = "x" + DataManager.Ins.playerData.countBom.ToString();
     }
     public void btn_X2()
     {
@@ -35,5 +39,17 @@ public class GamePlay : UICanvas
     {
         Time.timeScale = 1;
     }
-
+    public void btn_Bomb()
+    {
+        DataManager.Ins.playerData.countBom -= 1;
+        if (DataManager.Ins.playerData.countBom > 0)
+        {
+            if (InGameManager.Ins.isShootBomb == true)
+            {
+                InGameManager.Ins.isShootBomb = false;
+                InGameManager.Ins.isClickBtn = true;
+                InGameManager.Ins.MoveBomb();
+            }
+        }
+    }
 }

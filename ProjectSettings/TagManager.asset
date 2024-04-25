@@ -9,6 +9,7 @@ TagManager:
   - Wall_Down
   - Wall_Lose
   - Platform
+  - Bomb
   layers:
   - Default
   - TransparentFX

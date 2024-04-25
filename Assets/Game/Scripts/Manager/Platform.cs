@@ -29,6 +29,7 @@ public class Platform : GameUnit
         }
 
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Ball"))
@@ -40,8 +41,6 @@ public class Platform : GameUnit
         }
         if (collision.collider.CompareTag("Wall_Lose"))
         {
-            Debug.LogError("Lose");
-            //InGameManager.Ins.SpawnBomb(collision.collider.transform);
             for (int i = 0; i < PlatformManager.Ins.platform.Count; i++)
             {
                 if (PlatformManager.Ins.platform[i].transform.position.y > 42)
@@ -50,6 +49,12 @@ public class Platform : GameUnit
                 }
             }
             UIManager.Ins.OpenUI<Lose>();
+        }
+        if (collision.collider.CompareTag("Bomb"))
+        {
+            Punch();
+            InGameManager.Ins.scoreCombo += this.scorePlatform;
+            this.scorePlatform -= this.scorePlatform;
         }
     }
 

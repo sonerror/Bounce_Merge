@@ -155,6 +155,8 @@ public enum PoolType
     zone2,
     zone3,
     ball,
+    bomb,
+    VFX,
 }
 
 

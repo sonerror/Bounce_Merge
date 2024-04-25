@@ -15,7 +15,7 @@ public class MatManager : MonoBehaviour
     public void ChangeMat(int _idMerge, MeshRenderer mat)
     {
         int materialIndex = (_idMerge - 1) % 11;
-        mat.material = MatManager.Ins.matAssetData.GetMatWithID(materialIndex).mat;
+        mat.material = matAssetData.GetMatWithID(materialIndex).mat;
     }
     public void ChangeMatList()
     {
