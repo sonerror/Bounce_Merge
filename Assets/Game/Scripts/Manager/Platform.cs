@@ -9,22 +9,34 @@ public class Platform : GameUnit
     public TextMeshProUGUI textScore;
     public int scorePlatform = 33;
     public GameObject bomb;
+    public int ballAdd = 1;
+
     private void OnEnable()
     {
         bomb.SetActive(false);
+    }
+    public void Start()
+    {
+        ballAdd = 1;
     }
     private void Update()
     {
         if (scorePlatform <= 0)
         {
-            Ball ball = SimplePool.Spawn<Ball>(PoolType.ball);
-            ball.transform.position = this.transform.position;
-            ball.rb.constraints = RigidbodyConstraints.None;
-            ball.rb.constraints = RigidbodyConstraints.FreezePositionZ |
-            RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
-            ball.idMerge = Random.Range(1,3);
-            MatManager.Ins.ChangeMat(ball.idMerge, ball.mat);
-            InGameManager.Ins.ballSpawns++;
+            for(int i = 0; i < ballAdd; i++)
+            {
+                Ball ball = SimplePool.Spawn<Ball>(PoolType.ball);
+                ball.transform.position = this.transform.position;
+                ball.rb.AddForce(Vector3.up * 18f, ForceMode.Impulse);
+                Vector3 randomDir = Random.insideUnitSphere.normalized;
+                ball.rb.AddForce(randomDir * 8, ForceMode.Impulse);
+                ball.rb.constraints = RigidbodyConstraints.None;
+                ball.rb.constraints = RigidbodyConstraints.FreezePositionZ |
+                RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+                ball.idMerge = Random.Range(1, 3);
+                MatManager.Ins.ChangeMat(ball.idMerge, ball.mat);
+                InGameManager.Ins.ballSpawns++;
+            }
             PlatformManager.Ins.platform.Remove(this);
             Destroy(this.gameObject);
         }

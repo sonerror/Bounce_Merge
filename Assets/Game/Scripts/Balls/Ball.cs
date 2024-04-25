@@ -76,7 +76,7 @@ public class Ball : GameUnit
         {
             if (PathController.Ins.pathArray.Length > 0)
             {
-                this.transform.DOPath(PathController.Ins.pathArray, 3f, pathType).OnComplete(() =>
+                this.transform.DOPath(PathController.Ins.pathArray, 2.5f, pathType).OnComplete(() =>
                 {
                     BallQueueManager.Ins.ballsWaitTemp.Add(this);
                     InGameManager.Ins.countBall++;
@@ -107,6 +107,6 @@ public class Ball : GameUnit
     {
         var direction = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);
         var newSpeed = Mathf.Clamp(lastFrameVelocity.magnitude * 2f, minVelocity, 50);
-        rb.velocity = direction * newSpeed * 0.9f;
+        rb.velocity = direction * newSpeed * 0.98f;
     }
 }

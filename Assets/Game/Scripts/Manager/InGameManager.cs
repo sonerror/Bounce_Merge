@@ -123,14 +123,14 @@ public class InGameManager : MonoBehaviour
         {
             Destroy(bombIns.gameObject);
             ShootBomb(targetPosition);
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(0.15f);
         }
 
         int countBall1 = BallQueueManager.Ins.ballsWait.Count;
         for (int i = 0; i < countBall1; i++)
         {
             ShootBall(targetPosition, i);
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(0.15f);
         }
 
         BallQueueManager.Ins.ballsWait.Clear();
@@ -147,7 +147,7 @@ public class InGameManager : MonoBehaviour
         bombSpawn.transform.position = tfCannon.position;
         bombSpawn.transform.rotation = Quaternion.Euler(0f, 0f, rotation.eulerAngles.z);
         Rigidbody bombRb = bombSpawn.GetComponent<Rigidbody>();
-        bombRb.velocity = direction * 90f;
+        bombRb.velocity = direction * 100f;
         isShootBomb = true;
     }
 
@@ -166,7 +166,7 @@ public class InGameManager : MonoBehaviour
         ball.transform.rotation = Quaternion.Euler(0f, 0f, rotation.eulerAngles.z);
         ball.Oninit(index);
         Rigidbody ballRb = ball.GetComponent<Rigidbody>();
-        ballRb.velocity = direction * 90f;
+        ballRb.velocity = direction * 100f;
         Ball ballWait = BallQueueManager.Ins.ballsWait[index];
         if (index + 1 < BallQueueManager.Ins.ballsWait.Count)
         {
