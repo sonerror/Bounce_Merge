@@ -12,7 +12,7 @@ public class CannonController : MonoBehaviour
     public LineRenderer lineRenderer;
     private void Start()
     {
-        lineRenderer.positionCount = 2;
+        lineRenderer.positionCount = 3;
         UIManager.Ins.GetUI<GamePlay>().imgTarget.SetActive(true);
 
     }
@@ -34,20 +34,29 @@ public class CannonController : MonoBehaviour
                     mousePosition.z = Camera.main.nearClipPlane;
                     Vector3 targetPosition = Camera.main.ScreenToWorldPoint(mousePosition);
                     Vector3 rayDirection = transform.TransformDirection(Vector3.down);
+
+
                     Ray ray = new Ray(transform.position, rayDirection);
                     if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000f, mask))
                     {
-                        lineRenderer.SetPosition(0, this.transform.position);
-                        lineRenderer.SetPosition(1, hitInfo.point);
+                        Vector3 startPosition = transform.position;
+                        Vector3 endPosition = hitInfo.point;
+                        Vector3 reflectDirection = Vector3.Reflect(endPosition - startPosition, hitInfo.normal);// diem thu 3 la goc phan xa
+                        Vector3 reflectPosition = hitInfo.point + reflectDirection;
+                        Vector3 finalPosition = (endPosition + reflectPosition) / 5f;
+                        lineRenderer.enabled = true;
+                        lineRenderer.SetPosition(0, startPosition);
+                        lineRenderer.SetPosition(1, endPosition);
+                        lineRenderer.SetPosition(2, finalPosition);
                     }
+
                     Vector3 direction = transform.position - targetPosition;
                     Quaternion rotation = Quaternion.LookRotation(Vector3.forward, direction);
                     transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 50 * Time.deltaTime);
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
-                    lineRenderer.SetPosition(0, transform.position);
-                    lineRenderer.SetPosition(1, transform.position);
+                    lineRenderer.enabled = false;
                     Vector3 rayDirection = transform.TransformDirection(Vector3.down);
                     Ray ray = new Ray(transform.position, rayDirection);
                     if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000f, mask))

@@ -67,7 +67,7 @@ public class Ball : GameUnit
         if (collision.collider.CompareTag("Wall"))
         {
             Bounce(collision.contacts[0].normal);
-               
+
         }
     }
     public void MovePointStart()
@@ -107,6 +107,6 @@ public class Ball : GameUnit
     {
         var direction = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);
         var newSpeed = Mathf.Clamp(lastFrameVelocity.magnitude * 2f, minVelocity, 50);
-        rb.velocity = direction * newSpeed;
+        rb.velocity = direction * newSpeed * 0.9f;
     }
 }

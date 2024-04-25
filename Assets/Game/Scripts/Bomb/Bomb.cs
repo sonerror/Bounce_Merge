@@ -8,8 +8,15 @@ public class Bomb : GameUnit
     {
         if (collision.collider.CompareTag("Wall"))
         {
-            InGameManager.Ins.VFX_Bomb(collision);
             SimplePool.Despawn(this);
         }
+    }
+    IEnumerator IE_HitBomb(Collision collision)
+    {
+        yield return new WaitForEndOfFrame();
+        VFX_Bomb vfxbom = SimplePool.Spawn<VFX_Bomb>(PoolType.VFX);
+        vfxbom.transform.position = collision.collider.transform.position;
+        yield return new WaitForSeconds(2f);
+        SimplePool.Despawn(vfxbom);
     }
 }
