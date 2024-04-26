@@ -86,7 +86,7 @@ public class Ball : GameUnit
                 Array.Resize(ref PathController.Ins.pathArray, PathController.Ins.pathArray.Length - 1);
                 isMovePath = true;
             }
-            else
+            else // nhieu qua di chuyen tap chung 1 cho
             {
                 Vector3[] pathPos = new Vector3[2];
                 pathPos[0] = this.transform.position;
@@ -107,6 +107,6 @@ public class Ball : GameUnit
     {
         var direction = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);
         var newSpeed = Mathf.Clamp(lastFrameVelocity.magnitude * 2f, minVelocity, 50);
-        rb.velocity = direction * newSpeed * 0.98f;
+        rb.velocity = direction * newSpeed * 0.9f;
     }
 }

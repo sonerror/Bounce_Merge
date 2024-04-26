@@ -147,7 +147,7 @@ public class InGameManager : MonoBehaviour
         bombSpawn.transform.position = tfCannon.position;
         bombSpawn.transform.rotation = Quaternion.Euler(0f, 0f, rotation.eulerAngles.z);
         Rigidbody bombRb = bombSpawn.GetComponent<Rigidbody>();
-        bombRb.velocity = direction * 100f;
+        bombRb.velocity = direction * 90f;
         isShootBomb = true;
     }
 
@@ -166,7 +166,7 @@ public class InGameManager : MonoBehaviour
         ball.transform.rotation = Quaternion.Euler(0f, 0f, rotation.eulerAngles.z);
         ball.Oninit(index);
         Rigidbody ballRb = ball.GetComponent<Rigidbody>();
-        ballRb.velocity = direction * 100f;
+        ballRb.velocity = direction * 90f;
         Ball ballWait = BallQueueManager.Ins.ballsWait[index];
         if (index + 1 < BallQueueManager.Ins.ballsWait.Count)
         {
