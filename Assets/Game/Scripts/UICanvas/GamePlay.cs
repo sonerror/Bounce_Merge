@@ -27,6 +27,11 @@ public class GamePlay : UICanvas
         textTotal.text = FormatText.FormatNumber(totalScore);
         textCombo.text = FormatText.FormatNumber(scoreCombo);
         textBomb.text = "x" + DataManager.Ins.playerData.countBom.ToString();
+        if (DataManager.Ins.playerData.countBom < 0)
+        {
+            textBomb.text = "x0";
+
+        }
     }
     public void btn_X2()
     {
@@ -39,6 +44,17 @@ public class GamePlay : UICanvas
     {
         Time.timeScale = 1;
     }
+    public void btn_Sort()
+    {
+        InGameManager.Ins.isRo = false;
+        if (InGameManager.Ins.isShootBomb == true)
+        {
+            InGameManager.Ins.cannonController.lineRenderer.enabled = false;
+            InGameManager.Ins.isShootBomb = false;
+            InGameManager.Ins.isClickBtn = true;
+            InGameManager.Ins.SortBall();
+        }
+    }
     public void btn_Bomb()
     {
         DataManager.Ins.playerData.countBom -= 1;
@@ -46,6 +62,7 @@ public class GamePlay : UICanvas
         {
             if (InGameManager.Ins.isShootBomb == true)
             {
+                InGameManager.Ins.cannonController.lineRenderer.enabled = false;
                 InGameManager.Ins.isShootBomb = false;
                 InGameManager.Ins.isClickBtn = true;
                 InGameManager.Ins.MoveBomb();

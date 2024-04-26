@@ -30,7 +30,7 @@ public class Ball : GameUnit
     }
     private void Start()
     {
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Ball"), true);
+      //  Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Ball"), true);
         pathArray = PathController.Ins.pathArray;
     }
     public void Oninit(int i)
@@ -67,7 +67,6 @@ public class Ball : GameUnit
         if (collision.collider.CompareTag("Wall"))
         {
             Bounce(collision.contacts[0].normal);
-
         }
     }
     public void MovePointStart()
@@ -76,7 +75,7 @@ public class Ball : GameUnit
         {
             if (PathController.Ins.pathArray.Length > 0)
             {
-                this.transform.DOPath(PathController.Ins.pathArray, 2.5f, pathType).OnComplete(() =>
+                this.transform.DOPath(PathController.Ins.pathArray, 3.5f, pathType).OnComplete(() =>
                 {
                     BallQueueManager.Ins.ballsWaitTemp.Add(this);
                     InGameManager.Ins.countBall++;

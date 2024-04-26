@@ -19,10 +19,10 @@ public class MatManager : MonoBehaviour
     }
     public void ChangeMatList()
     {
-        for(int i = 0;i< BallQueueManager.Ins.ballsWait.Count;i++)
+        for (int i = 0; i < BallQueueManager.Ins.ballsWait.Count; i++)
         {
             int materialIndex = (BallQueueManager.Ins.ballsWait[i].idMerge - 1) % 11;
-            BallQueueManager.Ins.ballsWait[i].mat.material = MatManager.Ins.matAssetData.GetMatWithID(materialIndex).mat;
+            BallQueueManager.Ins.ballsWait[i].mat.material = matAssetData.GetMatWithID(materialIndex).mat;
         }
-    }    
+    }
 }

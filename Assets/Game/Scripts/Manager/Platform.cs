@@ -27,7 +27,7 @@ public class Platform : GameUnit
             {
                 Ball ball = SimplePool.Spawn<Ball>(PoolType.ball);
                 ball.transform.position = this.transform.position;
-                ball.rb.AddForce(Vector3.up * 18f, ForceMode.Impulse);
+                ball.rb.AddForce(Vector3.up * 25f, ForceMode.Impulse);
                 Vector3 randomDir = Random.insideUnitSphere.normalized;
                 ball.rb.AddForce(randomDir * 8, ForceMode.Impulse);
                 ball.rb.constraints = RigidbodyConstraints.None;

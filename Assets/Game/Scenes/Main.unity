@@ -2672,6 +2672,7 @@ MonoBehaviour:
   isShootBomb: 0
   tfBomb: {fileID: 751922914}
   isClickBtn: 0
+  cannonController: {fileID: 2919283921182542098}
 --- !u!4 &1020861683 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7481452103708270639, guid: 8b4ef79b7d4598a40b6b869a74338860, type: 3}
@@ -5805,6 +5806,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8479660806891936194, guid: 8b4ef79b7d4598a40b6b869a74338860, type: 3}
   m_PrefabInstance: {fileID: 2919283921182542096}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2919283921182542098 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3163442764182422045, guid: 8b4ef79b7d4598a40b6b869a74338860, type: 3}
+  m_PrefabInstance: {fileID: 2919283921182542096}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba2bc7f22cdea704989bf2c6ee3139ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6844958327254160692
 PrefabInstance:
   m_ObjectHideFlags: 0

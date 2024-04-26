@@ -22,7 +22,7 @@ public class InGameManager : MonoBehaviour
 
     public GameObject vfx;
     public GameObject bomb;
-    
+
 
     public int scoreCombo = 0;
     public bool isShootBomb = false;
@@ -31,6 +31,8 @@ public class InGameManager : MonoBehaviour
     public bool isClickBtn = false;
 
     GameObject bombIns;
+
+    public CannonController cannonController;
     private void Awake()
     {
         _ins = this;
@@ -147,7 +149,7 @@ public class InGameManager : MonoBehaviour
         bombSpawn.transform.position = tfCannon.position;
         bombSpawn.transform.rotation = Quaternion.Euler(0f, 0f, rotation.eulerAngles.z);
         Rigidbody bombRb = bombSpawn.GetComponent<Rigidbody>();
-        bombRb.velocity = direction * 90f;
+        bombRb.velocity = direction * 80f;
         isShootBomb = true;
     }
 
@@ -166,7 +168,7 @@ public class InGameManager : MonoBehaviour
         ball.transform.rotation = Quaternion.Euler(0f, 0f, rotation.eulerAngles.z);
         ball.Oninit(index);
         Rigidbody ballRb = ball.GetComponent<Rigidbody>();
-        ballRb.velocity = direction * 90f;
+        ballRb.velocity = direction * 80f;
         Ball ballWait = BallQueueManager.Ins.ballsWait[index];
         if (index + 1 < BallQueueManager.Ins.ballsWait.Count)
         {
@@ -203,9 +205,9 @@ public class InGameManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         bombIns = Instantiate(bomb, this.transform);
         bombIns.transform.position = tfBomb.position;
-        if(bombIns != null)
+        if (bombIns != null)
         {
-            bombIns.transform.DOMove(pathController.pathList[pathController.pathList.Count - 1].position + new Vector3(0,0,-0.5f), 2f);
+            bombIns.transform.DOMove(pathController.pathList[pathController.pathList.Count - 1].position + new Vector3(0, 0, -0.5f), 2f);
             isClickBtn = false;
         }
     }
@@ -217,5 +219,19 @@ public class InGameManager : MonoBehaviour
             vfxObj.transform.position = collision.collider.transform.position;
             Destroy(vfxObj, 0.5f);
         }
-    }    
+    }
+    public void SortBall()
+    {
+        if (BallQueueManager.Ins.ballsWait.Count > 0 && DataManager.Ins.playerData.idMerge.Count > 0)
+        {
+            DataManager.Ins.playerData.idMerge.Sort();
+            for(int i = 0;i< BallQueueManager.Ins.ballsWait.Count;i++)
+            {
+                SimplePool.Despawn(BallQueueManager.Ins.ballsWait[i]);
+            }
+            BallQueueManager.Ins.ballsWait.Clear();
+            Oninit();
+            isRo = true;
+        }    
+    }
 }
